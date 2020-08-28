@@ -51,14 +51,13 @@ app.get('/user', (req, res) => {
       console.log('transport sending...')
       if (err) {
         console.log(err)
+        res.send('Error >>>', error.message)
       } else {
         console.log(info);
         createNewMessage({messageInput: {name: 'Enida', content: message.text}})
+        res.send(message.text)
       }
-      console.log('...transport ended')
     });
-
-    res.send('....sending message')
 })
 
 
