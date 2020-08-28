@@ -46,7 +46,8 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.get('/user', (req, res) => {
+app.post('/user', (req, res) => {
+  console.log('req body  ', req.body)
   transport.sendMail(message, function(err, info) {
       console.log('transport sending...')
       if (err) {
