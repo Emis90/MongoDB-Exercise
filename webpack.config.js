@@ -1,5 +1,5 @@
 module.exports = {
-    mode: 'development',
+    mode: 'production',
     entry: [
       '@babel/polyfill', 
       './client/index.js'

@@ -5,32 +5,15 @@ const app = express();
 const PORT = 8000;
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
-const {graphqlHTTP} = require('express-graphql');
+const { graphqlHTTP } = require('express-graphql');
 const schema = require('./graphql/schema');
 const resolvers = require('./graphql/resolvers');
 const smtpTransport = require('nodemailer-smtp-transport')
 const nodemailer = require('nodemailer');
-const { createNewMessage } = require('./graphql/resolvers')
-//mongodb api key=07b05601-c86e-4d69-ad4f-93cc411bdd7f
-//mongodb+srv://enida:apples12345@cluster0.5p8ra.mongodb.net/test?retryWrites=true&w=majority
-let transport = nodemailer.createTransport(smtpTransport({
-  service: 'Gmail',
-  secure: false,
-  auth: {
-    user: process.env.FROM_EMAIL,
-    pass: process.env.PASSWORD
-  }
-}))
-
-const message = {
-  from: process.env.FROM_EMAIL, 
-  to: process.env.TO_EMAIL,
-  subject: 'Sending message from NODEJS', 
-  text: 'Message from test'
-};
 
 
-mongoose.connect("mongodb+srv://enida:apples12345@cluster0.5p8ra.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true  }); 
+
+mongoose.connect(`mongodb+srv://enida:apples12345@cluster0.5p8ra.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }); 
 mongoose.connection.once('open', () => { 
   console.log('Connected to the Database.');
 });
@@ -42,33 +25,50 @@ app.use(bodyParser.json());
 app.use(morgan('dev'))
 app.use(express.static(__dirname + '/public'))
 
+
 app.get('/', (req, res) => { 
     res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
-app.post('/user', (req, res) => {
-  console.log('req body  ', req.body)
-  transport.sendMail(message, function(err, info) {
-      console.log('transport sending...')
-      if (err) {
-        console.log(err)
-        res.send('Error >>>', error.message)
-      } else {
-        console.log(info);
-        createNewMessage({messageInput: {name: 'Enida', content: message.text}})
-        res.send(message.text)
-      }
-    });
+app.use("/graphql", graphqlHTTP({
+  schema: schema,
+  rootValue: resolvers,
+  graphiql: true
+}));
+
+app.get('/messages', async(req, res)=> {
+  let data = await resolvers.getAllMessages({})
+  res.send(data)
 })
 
+app.post('/', (req, res) => {
+  console.log(req.body)
+  try {
+  let transport = nodemailer.createTransport(smtpTransport({
+    service: 'Gmail',
+    secure: false,
+    auth: {
+      user: req.body.from,
+      pass: req.body.pass
+    }
+  }))
+  let bodyToSend = {
+    from: req.body.from,
+    to: req.body.to,
+    subject: req.body.subject,
+    text: req.body.body
+  }
+  transport.sendMail(bodyToSend, (err, info) => {
+      if (err) {
+        console.log(err)
+      } else {
+        // using callback function to send message to database
+     resolvers.createNewMessage({messageInput: {name: bodyToSend.from, content: bodyToSend.text}})
+      }
+    });
+  } catch (error) {
+    throw(error)
+  }
+})
 
-app.use("/graphql", graphqlHTTP({
-    schema: schema,
-    rootValue: resolvers,
-    graphiql: true
-  }));
-
-
-
-
-app.listen(PORT, () => {console.log(`Server listening on port ${PORT}`) });
+app.listen(PORT, () => {console.log(`Server listening on port ${PORT} 🚀`) });

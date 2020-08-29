@@ -1,0 +1,29 @@
+#container {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+
+.fields {
+    width: 20em;
+    height: 5em;
+    padding: .2em;
+    display: flex;
+}
+
+.button, .mail {
+    padding: .2em;
+    width: 20em;
+    height: 3em;
+}
+.button {
+    margin-top: 1em;
+}

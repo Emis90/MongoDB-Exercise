@@ -1,5 +1,5 @@
+const {gql} = require('apollo-server');
 const{ buildSchema } = require('graphql'); 
-
 const schema =  buildSchema(` 
 type Message { 
   id: ID!
@@ -13,15 +13,12 @@ input MessageInput {
 type Query { 
   getOneMessage(id: ID!): Message
   getAllMessages: [Message]
+  getAllMessagesWithApollo: [Message]
 }
 type Mutation { 
   createNewMessage(messageInput: MessageInput): Message
   deleteMessage(id: ID!): Message
   updateMessage(id: ID!, messageInput: MessageInput): Message!
-}
-schema { 
-  query: Query
-  mutation: Mutation
 }
 `)
 
