@@ -1,4 +1,5 @@
-
+const smtpTransport = require('nodemailer-smtp-transport')
+const nodemailer = require('nodemailer');
 const Message = require('../models/message'); 
 
 const getAllMessages = async() => { 
@@ -10,9 +11,35 @@ const getOneMessage = (args) => {
   return Message.findById(args.id)
 }
 
-const createNewMessage = (args) => {
-  let article = new Message(args.messageInput);
-  return article.save();
+const createNewMessage = async({name, content, from, to, pass, subject}) => {
+  console.log('args ', name, content, from, to, subject, pass)
+  try {
+    let transport = nodemailer.createTransport(smtpTransport({
+      service: 'Gmail',
+      secure: false,
+      auth: {
+        user: from,
+        pass,
+      }
+    }))
+    let bodyToSend = {
+      from,
+      to,
+      subject,
+      text: content
+    }
+    transport.sendMail(bodyToSend, (err, info) => {
+        if (err) {
+          console.log(err)
+        } else {
+         console.log('success!!')
+        }
+      });
+      let article = await new Message({name, content});
+      return article.save()
+    } catch (error) {
+      throw(error)
+    }
 }
 
 const deleteMessage = (args) => {

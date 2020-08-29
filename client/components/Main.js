@@ -3,8 +3,6 @@ import Messages from './Messages'
 import axios from 'axios'
 import { print } from 'graphql'
 import gql from 'graphql-tag'
-import schema from '../../graphql/schema'
-
 
 const GET_MESSAGES = gql`
   query getAllMessages {
@@ -15,48 +13,57 @@ const GET_MESSAGES = gql`
     }
   }
 `
+const SEND_MESSAGE = gql`
+   mutation createNewMessage($name: String!, $content: String!, $from: String!, $to: String!,$subject: String!, $pass: String!){
+     createNewMessage(name: $name, content: $content, from: $from, to: $to, subject: $subject, pass: $pass) {
+       id
+       name
+       content
+     }
+   }
+`
 
 const Main = () => {
  const [message, setMessage] = useState({})
- const [pass, setPass] = useState(null)
  const [total, setTotal] = useState(0)
  const [allMessages, setAll] = useState(null)
+console.log(total)
 
   const fetchData = async() => {
-
   const { data } = await axios.post('/graphql', {
     query: print(GET_MESSAGES)
   })
-
-   console.log('data   ', data.data)
    setAll(data.data.getAllMessages)
  }
-
-useEffect(()=> {
-    fetchData()
-}, [])
-
-
+  useEffect(()=> {
+  fetchData()
+  }, [total])
   const change = (event) => {
-      if ([event.target.name] === 'pass') {
-        setPass({...pass, [e.target.name]: event.target.value})
-      } else {
-        setMessage({...message, 
-            [event.target.name]: event.target.value
-           })
-      }
+    setMessage({...message, 
+      [event.target.name]: event.target.value
+    })
    }
 
   const submit = async(e) => {
     e.preventDefault()
     try {
-      await axios.post('/', message)
+      const { data } = await axios.post('/graphql', {
+        query: print(SEND_MESSAGE),
+        variables: {
+          name: message.from,
+          content: message.body,
+          subject: message.subject,
+          from: message.from,
+          to: message.to,
+          pass: message.pass
+        }
+      })
+      console.log(data)
       setTotal(total + 1)
     } catch (error) {
       alert('wrong credentials', error)
     }
      setMessage(null)
-     setPass(null)
   }
 
   return(

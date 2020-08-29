@@ -8,13 +8,23 @@ type Message {
 input MessageInput { 
   name: String!
   content: String!
+  from: String!
+  to: String!
+  subject: String!
+  pass: String!
 }
 type Query { 
   getOneMessage(id: ID!): Message
   getAllMessages: [Message]
 }
 type Mutation { 
-  createNewMessage(messageInput: MessageInput): Message
+  createNewMessage(  
+    name: String!
+    content: String!
+    from: String!
+    to: String!
+    subject: String!
+    pass: String!): Message
   deleteMessage(id: ID!): Message
   updateMessage(id: ID!, messageInput: MessageInput): Message!
 }
