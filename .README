@@ -1,0 +1,35 @@
+PROJECT SETUP:
+
+-npm init
+-npm install
+-created -env file
+-created .gitignore and added modules and .env file
+-set up server on index.js with all middleware
+-created MongoDB account 
+-connected nodejs to MongoDB through mongoose
+-initiaed Graphql
+-created schema and resolvers 
+
+
+//FOR SENDING MESSAGES
+
+-i used nodemailer api to set up messages between nodejs and remote email address
+-used rest for sending messages and graphql resolver for adding articles to MongoDB collection
+
+//FRONTEND
+
+-npm installed react and all @babel... dependencies
+-setup webpack config file with entry point to my clinet/index.js
+-index.js calls ReactDOM.render method to wrap all components in React
+-added bundling script to json file
+-ran npm run build to bundle files
+
+-npm start not sends my react work instead of just html file
+
+-build form for sending emails
+
+-YOU MUST PUT CORRECT EMAILS AND YOUR EMAIL PASSWORD to successfully send a mail
+
+
+
+
