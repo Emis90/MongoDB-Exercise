@@ -11,8 +11,6 @@ const resolvers = require('./graphql/resolvers');
 const smtpTransport = require('nodemailer-smtp-transport')
 const nodemailer = require('nodemailer');
 
-
-
 mongoose.connect(`mongodb+srv://enida:apples12345@cluster0.5p8ra.mongodb.net/test?retryWrites=true&w=majority`, { useNewUrlParser: true, useFindAndModify: false, useUnifiedTopology: true }); 
 mongoose.connection.once('open', () => { 
   console.log('Connected to the Database.');
@@ -62,8 +60,7 @@ app.post('/', (req, res) => {
       if (err) {
         console.log(err)
       } else {
-        // using callback function to send message to database
-     resolvers.createNewMessage({messageInput: {name: bodyToSend.from, content: bodyToSend.text}})
+      resolvers.createNewMessage({messageInput: {name: bodyToSend.from, content: bodyToSend.text}})
       }
     });
   } catch (error) {

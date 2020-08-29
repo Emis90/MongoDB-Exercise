@@ -1,8 +1,9 @@
 
 const Message = require('../models/message'); 
 
-const getAllMessages = () => { 
-  return Message.find({})
+const getAllMessages = async() => { 
+  const data = await Message.find({})
+  return data
 }
 
 const getOneMessage = (args) => {
@@ -23,14 +24,7 @@ const updateMessage = (message) => {
   return Message.findByIdAndUpdate(message.id, message.articleInput, { new: true }); 
 }
 
-const apolloResolver =  {
-  Query: {
-    getAllMessagesWithApollo: () => {
-      let data =  Message.find({});
-      return data
-    }
-  }
-}
-const resolvers = { apolloResolver, getAllMessages, getOneMessage, createNewMessage, deleteMessage, updateMessage }
+
+const resolvers = { getAllMessages, getOneMessage, createNewMessage, deleteMessage, updateMessage }
 
 module.exports = resolvers

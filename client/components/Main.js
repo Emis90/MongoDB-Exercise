@@ -1,6 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import Messages from './Messages'
 import axios from 'axios'
+import { print } from 'graphql'
+import gql from 'graphql-tag'
+import schema from '../../graphql/schema'
+
+
+const GET_MESSAGES = gql`
+  query getAllMessages {
+    getAllMessages {
+      id
+      name
+      content
+    }
+  }
+`
 
 const Main = () => {
  const [message, setMessage] = useState({})
@@ -8,14 +22,19 @@ const Main = () => {
  const [total, setTotal] = useState(0)
  const [allMessages, setAll] = useState(null)
 
- const fetchData = async() => {
-  const {data} = await axios.get('/messages')
-  setAll(data)
+  const fetchData = async() => {
+
+  const { data } = await axios.post('/graphql', {
+    query: print(GET_MESSAGES)
+  })
+
+   console.log('data   ', data.data)
+   setAll(data.data.getAllMessages)
  }
 
 useEffect(()=> {
     fetchData()
-}, [total])
+}, [])
 
 
   const change = (event) => {

@@ -12,7 +12,6 @@ input MessageInput {
 type Query { 
   getOneMessage(id: ID!): Message
   getAllMessages: [Message]
-  getAllMessagesWithApollo: [Message]
 }
 type Mutation { 
   createNewMessage(messageInput: MessageInput): Message
