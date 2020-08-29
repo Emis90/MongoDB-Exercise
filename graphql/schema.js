@@ -1,4 +1,3 @@
-const {gql} = require('apollo-server');
 const{ buildSchema } = require('graphql'); 
 const schema =  buildSchema(` 
 type Message { 

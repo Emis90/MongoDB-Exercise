@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Messages from './Messages'
 import axios from 'axios'
 
@@ -6,6 +6,18 @@ const Main = () => {
  const [message, setMessage] = useState({})
  const [pass, setPass] = useState(null)
  const [total, setTotal] = useState(0)
+ const [allMessages, setAll] = useState(null)
+
+ const fetchData = async() => {
+  const {data} = await axios.get('/messages')
+  setAll(data)
+ }
+
+useEffect(()=> {
+    fetchData()
+}, [total])
+
+
   const change = (event) => {
       if ([event.target.name] === 'pass') {
         setPass({...pass, [e.target.name]: event.target.value})
@@ -40,7 +52,7 @@ const Main = () => {
       <input className='button' type="submit" value="Submit" id='submit'/> 
       </form>
       <div>
-          <Messages total={total}/>
+        {allMessages ? <Messages allMessages={allMessages}/> : null}
       </div>
       </div>
       )
