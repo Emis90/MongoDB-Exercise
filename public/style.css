@@ -4,12 +4,12 @@
     justify-content: center;
     flex-wrap: wrap;
     padding-top: .2em;
-    height: 110%;
+    height: auto;
     width: 100%;
     margin: 0;
     padding: 0;
-    border-style: solid;
-    border-width: .1em;
+}
+body {
     font-family: 'Archivo', sans-serif;
     animation-name: run;
     animation-duration: 10s;
@@ -17,10 +17,10 @@
 	animation-direction: alternate;
 }
 @keyframes run {
-    0% {background-color: #f9f46a;}
+    0% {background-color: #6aa8f9;}
     35% {background-color: #e87abd;}
-    70% {background: #2395be}
-    100% {background-color:  #85d098;}
+    70% {background: #9ddcf3}
+    100% {background-color:  #f0bcee;}
 }
 #main, #messages {
     width: 30em;
