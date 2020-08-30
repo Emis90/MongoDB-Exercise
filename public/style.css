@@ -1,29 +1,187 @@
 #container {
     display: flex;
-    flex-direction: column;
-    align-content: center;
-    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: .2em;
+    height: 110%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+    border-width: .1em;
+    font-family: 'Archivo', sans-serif;
+    animation-name: run;
+    animation-duration: 10s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
 }
-.form {
+@keyframes run {
+    0% {background-color: #f9f46a;}
+    35% {background-color: #e87abd;}
+    70% {background: #2395be}
+    100% {background-color:  #85d098;}
+}
+#main, #messages {
+    width: 30em;
+    height: 28em;
+    padding: .5em;
+    margin: .3em;
+    border-style: solid;
+    border-color: rgb(91, 91, 130);
+    border-width: .1em;
+    border-radius: 1em;
+}
+#messages {
+    background-color: rgb(244, 198, 229);
     display: flex;
     flex-direction: column;
-    align-content: center;
     align-items: center;
 }
-
-
-.fields {
-    width: 20em;
-    height: 5em;
+#main {
+    background-color: rgb(140, 212, 244);
+}
+h1, h3, p, h4 {
+    word-wrap: break-word;
+    border: 0;
+    margin: 0;
+}
+h3 {
     padding: .2em;
+}
+.title {
     display: flex;
+    flex-direction: row;
+    width: 25em;
+    justify-content: center;
+    align-content: center;
+}
+.del {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.delInput {
+    border-radius: 40%;
+}
+input, textarea {
+    margin: .5em;
+    border-radius: .3em;
+    border-width: .2em
+}
+.pass {
+    height: 1em;
+    width: 25em;
 }
 
-.button, .mail {
-    padding: .2em;
-    width: 20em;
-    height: 3em;
+#from-to, #email-subject, #submit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
 }
-.button {
-    margin-top: 1em;
+input, textarea,  input:active, textarea:active {
+    width: 25em;
+    box-shadow: none;
+    outline: none;
+    appearance: none;
+    border: 0;
+    border-width: .1em;
+    border-color: rgb(226, 241, 249);
+    border-style: solid;
+    border-radius: .5em;
+    padding: .3em;
+    -webkit-appearance: none;
+    background-color: rgb(198, 230, 245);
 }
+
+.button, .button:active {
+    padding: 1em;
+    border-style: solid;
+    border-width: 1em;
+    background-color: rgb(114, 163, 204);
+    border-color: rgb(114, 163, 204);
+    color: white;
+}
+
+#from-to input {
+    height: 2em;
+}
+
+#email-subject input {
+    height: 2.5em;
+}
+
+textarea {
+    height: 10em;;
+}
+
+#submit input {
+    height: 2em;
+    width: 25em;
+}
+
+input:focus, textarea:focus, .delInput, input:active, textarea:active {
+    outline: 0;
+    appearance: none;
+    border: 0;
+    -webkit-appearance: none;
+    box-shadow: none;
+}
+#submit .button, .message-div {
+    width: 25.5em;
+    padding: .5em;
+}
+.scroll {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+}
+.message-div {
+   height: auto;
+   border-width: .1em;
+   border-color: rgb(252, 241, 248);
+   border-radius: .5em;
+   background-color: rgb(238, 222, 238);
+   border-style: solid;
+   margin-bottom: 1em;
+}
+.message-div:hover {
+filter: brightness(120%);
+-webkit-transition: all 1s ease;
+-moz-transition: all 1s ease;
+-o-transition: all 1s ease;
+-ms-transition: all 1s ease;
+transition: all 1s ease;
+}
+.message-div h3 {
+    color: rgb(96, 96, 152);
+}
+.message-div h4, .message-div p  {
+    color: rgb(83, 61, 136);
+}
+ @media (orientation: portrait) {
+    * {
+        width: fit-content;
+        font-family: 'Archivo', sans-serif;
+    }
+
+    #main, #messages {
+        display: flex;
+        width: 90%;
+        height: 40em;
+        flex-direction: column;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+    }
+    .message-div {
+        width: 40em;
+    } 
+    input, textarea, input .pass, input .button {
+        width: 47em;
+    }
+
+} 

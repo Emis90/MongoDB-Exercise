@@ -7,8 +7,8 @@ const getAllMessages = async() => {
   return data
 }
 
-const getOneMessage = (args) => {
-  return Message.findById(args.id)
+const getOneMessage = async(args) => {
+  return await Message.findById(args.id)
 }
 
 const createNewMessage = async({name, content, from, to, pass, subject}) => {
@@ -42,13 +42,14 @@ const createNewMessage = async({name, content, from, to, pass, subject}) => {
     }
 }
 
-const deleteMessage = (args) => {
-  return Message.findByIdAndRemove(args.id);
+const deleteMessage = async(args) => {
+  console.log('delete called   ', args)
+  return await Message.findByIdAndRemove(args.id);
 }
 
 //not needed, its just here for practice
-const updateMessage = (message) => {
-  return Message.findByIdAndUpdate(message.id, message.articleInput, { new: true }); 
+const updateMessage = async(message) => {
+  return await Message.findByIdAndUpdate(message.id, message.articleInput, { new: true }); 
 }
 
 

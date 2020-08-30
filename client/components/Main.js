@@ -27,7 +27,6 @@ const Main = () => {
  const [message, setMessage] = useState({})
  const [total, setTotal] = useState(0)
  const [allMessages, setAll] = useState(null)
-console.log(total)
 
   const fetchData = async() => {
   const { data } = await axios.post('/graphql', {
@@ -38,6 +37,7 @@ console.log(total)
   useEffect(()=> {
   fetchData()
   }, [total])
+
   const change = (event) => {
     setMessage({...message, 
       [event.target.name]: event.target.value
@@ -50,7 +50,7 @@ console.log(total)
       const { data } = await axios.post('/graphql', {
         query: print(SEND_MESSAGE),
         variables: {
-          name: message.from,
+          name: message.to,
           content: message.body,
           subject: message.subject,
           from: message.from,
@@ -63,24 +63,35 @@ console.log(total)
     } catch (error) {
       alert('wrong credentials', error)
     }
-     setMessage(null)
+     
   }
 
   return(
-      <div id="container">
-        <h2>Send an email yo your friends!</h2>
-      <form className='form' onChange={(e)=> change(e)} onSubmit={(e) => submit(e)}>
-      <input className='mail' type="email" name="from" placeholder='from'required/>
-      <input className='mail' type="email" name="to" placeholder='to' required/>
-      <input className='mail' type="text" name="subject" placeholder='subject' required/>
-      <textarea className='fields' rows="5" type="text" name="body" placeholder='message'/>
-      <input className='mail' type="password" name="pass" placeholder='email password' required/>
-      <input className='button' type="submit" value="Submit" id='submit'/> 
-      </form>
-      <div>
-        {allMessages ? <Messages allMessages={allMessages}/> : null}
-      </div>
-      </div>
+  <div id="container">
+    <h1 class="title">MESSAGE BOARD! SEND YOUR EMAIL! 🚀 </h1>
+    <div id="main">
+    <div class='title'>
+    <h3>Send an email to your friends!</h3>
+    </div>
+    <div>
+    </div>
+        <form class='form' onChange={(e)=> change(e)} onSubmit={(e) => submit(e)}>
+          <div id="from-to">
+          <input class='mail' type="email" name="from" placeholder='from (email)'required/>
+          <input class='mail' type="email" name="to" placeholder='to (email)' required/>
+          </div>
+          <div id='email-subject'>
+          <input class='mail' type="text" name="subject" placeholder='subject' required/>
+          <textarea class='fields' rows="5" type="text" name="body" placeholder='...message'/>
+          </div>
+          <div id="submit">
+          <input class='pass' type="password" name="pass" placeholder='your email password' required/>
+          <input class='button' type="submit" value="Submit" id='submit'/> 
+          </div>
+        </form>
+    </div>
+        {allMessages ? <Messages allMessages={allMessages} total={total} setTotal={setTotal} /> : null}
+  </div>
       )
 }
 

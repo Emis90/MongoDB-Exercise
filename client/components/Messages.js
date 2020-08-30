@@ -1,19 +1,48 @@
 import React from 'react'
+import { print } from 'graphql'
+import gql from 'graphql-tag'
+import axios from 'axios'
 
-
-const Messages = ({allMessages}) => {
-
+const DELETE_MESSAGE = gql`
+  mutation deleteMessage($id: ID!){
+    deleteMessage(id: $id) {
+      id
+      name
+      content
+    }
+  }
+`
+const Messages = ({allMessages, total, setTotal}) => {
+  const deleteMessage = async(e, id) => {
+    e.preventDefault()
+   const {data} = await axios.post('/graphql', {
+      query: print(DELETE_MESSAGE),
+      variables: {
+        id
+      }
+    })
+   console.log(data)
+   setTotal(total - 1)
+  }
   return(
-   <div>
-     <h1>All previous messages</h1>
+   <div id="messages">
+     <div class='title'>
+     <h3>Your past emails</h3>
+     </div>
+     <div class='scroll'>
       {allMessages.map(el => {
         return (
-        <div key={el._id}>
-        <h1>{el.name}</h1>
-        <h3>Message: {el.content}</h3>
+        <div class='message-div' key={el.id}>
+        <div class='del'>
+          <button class='delInput' onClick={(e)=> deleteMessage(e, el.id)}>X</button>
+          </div>
+        <h4>To : {el.name}</h4> 
+        <br/>
+        <p>{el.content}</p>
         </div>
         )
-      })}
+      }).reverse()}
+      </div>
    </div>
   )
 }
