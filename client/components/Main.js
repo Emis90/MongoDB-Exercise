@@ -67,8 +67,11 @@ const Main = () => {
   }
 
   return(
-  <div id="container">
+  <div id="outer-container">
+    <div>
     <h1 class="title">MESSAGE BOARD! SEND YOUR EMAIL! 🚀 </h1>
+    </div>
+    <div id="inner-container">
     <div id="main">
     <div class='title'>
     <h3>Send an email to your friends!</h3>
@@ -90,7 +93,9 @@ const Main = () => {
           </div>
         </form>
     </div>
+    
         {allMessages ? <Messages allMessages={allMessages} total={total} setTotal={setTotal} /> : null}
+    </div>
   </div>
       )
 }
