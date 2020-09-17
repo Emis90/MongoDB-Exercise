@@ -93,8 +93,7 @@ const Main = () => {
           </div>
         </form>
     </div>
-    
-        {allMessages ? <Messages allMessages={allMessages} total={total} setTotal={setTotal} /> : null}
+    {allMessages ? <Messages allMessages={allMessages} total={total} setTotal={setTotal} /> : null}
     </div>
   </div>
       )
